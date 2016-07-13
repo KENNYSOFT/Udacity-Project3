@@ -1,0 +1,68 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		  package="kr.KENNYSOFT.Udacity.Project3">
+
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+
+	<permission
+		android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE"
+		android:protectionLevel="signature" />
+
+	<uses-permission
+		android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE" />
+
+	<application
+		android:allowBackup="true"
+		android:label="@string/app_name"
+		android:icon="@mipmap/ic_launcher"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme">
+
+		<activity
+			android:name="kr.KENNYSOFT.Udacity.Project3.ui.MyStocksActivity"
+			android:label="@string/app_name" >
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name="kr.KENNYSOFT.Udacity.Project3.ui.LineGraphActivity"
+			android:configChanges="orientation|screenSize"
+			android:parentActivityName="kr.KENNYSOFT.Udacity.Project3.ui.MyStocksActivity" >
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="kr.KENNYSOFT.Udacity.Project3.ui.MyStocksActivity"/>
+		</activity>
+		<service android:name="kr.KENNYSOFT.Udacity.Project3.service.StockTaskService"
+				 android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"
+				 android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.android.gms.gcm.ACTION_TASK_READY"/>
+			</intent-filter>
+		</service>
+		<service android:name="kr.KENNYSOFT.Udacity.Project3.service.StockIntentService" />
+		<provider
+			android:authorities="kr.KENNYSOFT.Udacity.Project3.data.QuoteProvider"
+			android:name="kr.KENNYSOFT.Udacity.Project3.data.generated.QuoteProvider"
+			android:exported="false"/>
+		<receiver
+			android:name="kr.KENNYSOFT.Udacity.Project3.rest.StockWidgetProvider"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+				<action android:name="kr.KENNYSOFT.Udacity.Project3.action.REFRESH"/>
+			</intent-filter>
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/widget"/>
+		</receiver>
+		<service
+			android:name="kr.KENNYSOFT.Udacity.Project3.service.StockWidgetService"
+			android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+	</application>
+
+</manifest>
